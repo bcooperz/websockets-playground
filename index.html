@@ -1,55 +1,23 @@
-<!doctype html>
-<h2>WebSocket Test</h2>
-<div><textarea id="input" rows="4" cols="50" placeholder="Send a message"></textarea></div>
-<div><button id="send">Send message</button></div>
-<div id="output"></div>
-<script>
+<!-- index.html -->
 
-  const wsUri = "ws://127.0.0.1/";
-  const output = document.querySelector("#output");
-  const websocket = new WebSocket(wsUri);
-  let pingInterval;
-
-  const textAreaElement = document.getElementById("input")
-  const sendButtonElement = document.getElementById("send")
-  sendButtonElement.addEventListener("click", () => {
-    const message = textAreaElement.value;
-    // websocket.send(message);
-    // writeToScreen("Sent " + message);
-    sendMessage(message);
-    console.log("sending message", message);
-    textAreaElement.value = "";
-  })
-
-  function writeToScreen(message) {
-    output.insertAdjacentHTML("afterbegin", `<p>${message}</p>`);
-  }
-
-  function sendMessage(message) {
-    writeToScreen(`SENT: ${message}`);
-    websocket.send(message);
-  }
-
-  websocket.onopen = (e) => {
-    writeToScreen("CONNECTED");
-    sendMessage("ping");
-    // pingInterval = setInterval(() => {
-    //   sendMessage("ping");
-    // }, 30000);
-  }
-
-  websocket.onclose = (e) => {
-    writeToScreen("DISCONNECTED");
-    clearInterval(pingInterval);
-  };
-
-  websocket.onmessage = (e) => {
-    console.log("e", e);
-    writeToScreen(`RECEIVED: ${e.data}`);
-  };
-
-  websocket.onerror = (e) => {
-    writeToScreen(`ERROR: ${e.data}`);
-  };
-
-</script>
+<html>
+  <head>
+    <title>Chat App</title>
+    <script src="./app.js"></script>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <div>
+        <b>Users</b>
+        <hr />
+        <div id="users"></div>
+        <hr class="visible-xs visible-sm" />
+      </div>
+      <div>
+        <input id="data" placeholder="send message" />
+        <hr />
+        <div id="conversation"></div>
+      </div>
+    </div>
+  </body>
+</html>
